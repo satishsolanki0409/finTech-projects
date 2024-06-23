@@ -1,1 +1,4 @@
-./ALPHAVANTAGE_API_KEY
+*_API_KEY
+
+# Ignore files related to API keys
+.env
