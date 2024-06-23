@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-API_KEY = '21G12X0P3173DTZN' 
 ts = TimeSeries(API_KEY, output_format='pandas', indexing_type='integer') 
 ti = TechIndicators(key=API_KEY, output_format='pandas')
 
