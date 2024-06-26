@@ -6,6 +6,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+# Read API
+API_KEY = ''
+
+with open('ALPHAVANTAGE_API_KEY') as f:
+    API_KEY = f.read()
+
 ts = TimeSeries(API_KEY, output_format='pandas', indexing_type='integer') 
 ti = TechIndicators(key=API_KEY, output_format='pandas')
 
