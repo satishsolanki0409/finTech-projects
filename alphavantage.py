@@ -35,7 +35,23 @@ class stock:
             self.data['typical_price'].plot()
             plt.title(f'{self.ticker} stock ({self.interval})')
             plt.show()
+    
+    def getInterDayData(self, last100=True, plot=False):
+        self.interval = '1day'
+        output = 'full'
+        if last100:
+            output ='compact'
         
+        self.data, self.metaData = ts.get_daily(self.ticker, output)
+        self.data['typical_price'] = (self.data['2. high'] + self.data['3. low'] + 
+                                      self.data['4. close'] + self.data['1. open'])/4
+        self.data['dayOfWeek'] = pd.to_datetime(self.data['index']).dt.day_of_week
+        
+        if plot:
+            self.data['typical_price'].plot()
+            plt.title(f'{self.ticker} stock ({self.interval})')
+            plt.show()
+
     def getBbands(self, interval='1min'):
         # Bolinger Band
         self.band, meta_data = ti.get_bbands(symbol=self.ticker, 
@@ -52,12 +68,19 @@ class stock:
         signal_line = self.calculate_ema(9)
         return macd_line, signal_line
 
-
-   
     def getSignal(self, indicator):
-        self.getIntraDayData()
         # https://www.alphavantage.co/simple_moving_average_sma/
-        if (indicator == 'MACD'):
+        if (indicator == 'PERIODICITY'):
+            # Assumption: gain/loss of the day is uniform random, 
+            # which mean consecutive loss/gain is less probable
+            self.getInterDayData()
+            
+
+
+
+        elif (indicator == 'MACD'):
+            self.getIntraDayData()
+
             # Calculate MACD and Signal Line
             macd_line, signal_line = self.calculate_macd()
 
